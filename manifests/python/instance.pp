@@ -45,7 +45,7 @@ define webapp::python::instance($domain,
     requirements => $requirements ? {
       true => "$src/requirements.txt",
       false => undef,
-      default => "$src/$requirements",
+      default => regsubst($requirements, "^.*$", "$src/\\0"),
     },
   }
 
