@@ -10,7 +10,8 @@ define webapp::python::instance($domain,
                                 $workers=1,
                                 $timeout_seconds=30,
                                 $monit_memory_limit=300,
-                                $monit_cpu_limit=50) {
+                                $monit_cpu_limit=50,
+                                $gunicorn_config=false) {
 
   $venv = "${webapp::python::venv_root}/$name"
   $src = "${webapp::python::src_root}/$name"
@@ -58,6 +59,7 @@ define webapp::python::instance($domain,
     django_settings => $django_settings,
     workers => $workers,
     timeout_seconds => $timeout_seconds,
+    configfile => $gunicorn_config,
     require => $ensure ? {
       'present' => Python::Venv::Isolate[$venv],
       default => undef,
